@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import Icon from '../components/Icon.astro';
+import { getPosts } from '../lib/posts';
+import { GITHUB_URL } from '../consts';
+const posts = await getPosts();
+const real = posts.filter(post => !post.data.example);
+const displayed = (real.length ? real : posts).slice(0, 3);
+---
+<BaseLayout>
+  <div class="container">
+    <section class="hero" aria-labelledby="intro-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="small-line"></span> NOTES / CODE / CURIOSITY</p>
+        <p class="hello">你好，我是 Luxizon <span class="hello-dot">✳</span></p>
+        <h1 id="intro-title">在代码与系统之间，<br />记录<span class="hero-accent">探索的轨迹。</span></h1>
+        <p class="hero-description">一名学习网络空间安全与计算机技术的大学生。<br class="desktop-break" />在这里，记录从理解原理到动手实践的每一步。</p>
+        <div class="hero-actions"><a href="/blog/" class="button-primary">阅读文章 <span aria-hidden="true">→</span></a><a href={GITHUB_URL} class="text-link" target="_blank" rel="noopener noreferrer"><Icon name="github" size={18} /> GitHub <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <aside class="field-notes" aria-label="学习方向">
+        <div class="notebook-top"><span class="mono">FIELD NOTES</span><span class="notebook-symbol" aria-hidden="true">⌘</span></div>
+        <p class="notebook-title">理解系统，<br />也理解它的边界。</p>
+        <div class="notebook-rule"></div>
+        <div class="notebook-row"><span>01</span><strong>构建基础</strong><small>C++ / Linux / Networks</small></div>
+        <div class="notebook-row"><span>02</span><strong>探索安全</strong><small>Web / CTF / AI Security</small></div>
+        <div class="notebook-row"><span>03</span><strong>动手实践</strong><small>Build / Break / Learn</small></div>
+        <div class="notebook-footer"><span class="status-dot"></span> 始终保持学习者的视角 <span aria-hidden="true">↗</span></div>
+      </aside>
+    </section>
+    <div class="interests"><span class="interests-label">关注领域</span><div><span>C++ & Algorithms</span><span>Linux & Systems</span><span>Web & CTF</span><span>AI Security</span></div></div>
+    <section class="home-section" aria-labelledby="latest-title">
+      <div class="section-heading"><div><p class="eyebrow">THE JOURNAL</p><h2 id="latest-title">最新文章<span class="heading-dot">.</span></h2></div><a class="text-link" href="/blog/">全部文章 <span aria-hidden="true">↗</span></a></div>
+      {!real.length && <p class="section-note">正式笔记正在整理。以下为排版与内容结构示例，不代表个人学习成果。</p>}
+      <div class="post-grid">{displayed.map(post => <PostCard post={post} />)}</div>
+    </section>
+    <section class="home-section projects-section" aria-labelledby="projects-title">
+      <div class="section-heading"><div><p class="eyebrow">LEARNING BY BUILDING</p><h2 id="projects-title">精选项目<span class="heading-dot">.</span></h2></div><span class="section-aside">把想法写成代码</span></div>
+      <div class="project-grid">
+        <article class="project-card"><div class="project-icon"><Icon name="code" size={23} /></div><div><div class="project-heading"><h3>这个博客</h3><span class="project-status">正在构建</span></div><p>一个用 Astro 构建的个人技术笔记空间。专注内容、中文阅读体验与轻量的静态页面。</p><div class="project-bottom"><span><i class="tech-dot"></i>Astro <span class="project-tech">TypeScript · Markdown</span></span><a href="/about/" aria-label="了解这个博客"><Icon name="arrow" size={20} /></a></div></div></article>
+        <div class="project-placeholder"><span class="placeholder-plus" aria-hidden="true">+</span><div><h3>给下一个想法留个位置</h3><p>更多项目，在学习与实践中慢慢生长。</p></div></div>
+      </div>
+    </section>
+    <section class="closing-note"><span class="mono" aria-hidden="true">/*</span><p>不急于给出答案，先把问题理解清楚。<small>写下来，是为了想得更明白。</small></p><span class="mono" aria-hidden="true">*/</span></section>
+  </div>
+</BaseLayout>

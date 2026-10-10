@@ -1,0 +1,16 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+import Icon from './Icon.astro';
+import { readingMinutes } from '../lib/post-utils';
+import { postUrl } from '../lib/posts';
+interface Props { post: CollectionEntry<'blog'>; }
+const { post } = Astro.props;
+const { title, description, pubDate, category, tags, example } = post.data;
+---
+<article class="post-card">
+  <div class="post-meta"><span class="category">{category}</span>{example && <span class="example-label">示例文章</span>}<span class="meta-date"><FormattedDate date={pubDate} /></span></div>
+  <h3><a href={postUrl(post.id)}>{title}<span class="card-arrow"><Icon name="arrow" size={20} /></span></a></h3>
+  <p class="post-description">{description}</p>
+  <div class="post-bottom"><div class="post-tags">{tags.slice(0, 3).map(tag => <span>#{tag}</span>)}</div><span class="read-time">{readingMinutes(post.body || '')} 分钟阅读</span></div>
+</article>

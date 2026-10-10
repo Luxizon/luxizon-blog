@@ -1,0 +1,21 @@
+---
+import HeaderLink from './HeaderLink.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import Icon from './Icon.astro';
+import { SITE_TITLE, GITHUB_URL } from '../consts';
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Luxizon's Blog 首页"><span class="brand-mark">L<span>.</span></span><span>{SITE_TITLE}</span></a>
+    <nav aria-label="主导航">
+      <HeaderLink href="/">首页</HeaderLink>
+      <HeaderLink href="/blog/">文章</HeaderLink>
+      <HeaderLink href="/about/">关于</HeaderLink>
+    </nav>
+    <div class="header-tools">
+      <a class="icon-link" href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label="Luxizon 的 GitHub（新窗口）"><Icon name="github" size={18} /></a>
+      <span class="tool-divider" aria-hidden="true"></span>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>

@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { Image } from 'astro:assets';
+import '../styles/prose.css';
+type Props = CollectionEntry<'blog'>['data'];
+const { title, description, pubDate, updatedDate, category, tags, example, heroImage } = Astro.props;
+---
+<BaseLayout title={title} description={description} noindex={example} article>
+  <div class="article-container">
+    <a href="/blog/" class="back-link">← 返回文章列表</a>
+    <article>
+      <header class="article-header">
+        <div class="post-meta"><span class="category">{category}</span>{example && <span class="example-label">示例文章</span>}</div>
+        <h1>{title}</h1><p class="article-description">{description}</p>
+        <div class="article-meta"><span>{example ? '示例日期' : '发布于'} <FormattedDate date={pubDate} /></span>{updatedDate && <span>更新于 <FormattedDate date={updatedDate} /></span>}<slot name="reading-time" /></div>
+        <div class="post-tags">{tags.map(tag => <span>#{tag}</span>)}</div>
+      </header>
+      {example && <aside class="example-notice"><strong>这是一篇演示文章</strong><p>用于展示博客的排版与写作结构，并非 Luxizon 真实发布的学习笔记。示例不进入 RSS 订阅与站点地图。</p></aside>}
+      {heroImage && <Image src={heroImage} alt="" class="article-hero-image" width={900} />}
+      <div class="prose"><slot /></div>
+      <div class="article-ending"><span>— 本文结束 —</span><a href="/blog/">继续阅读其他文章 →</a></div>
+    </article>
+  </div>
+</BaseLayout>

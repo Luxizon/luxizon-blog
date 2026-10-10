@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+---
+<div class="theme-control" hidden>
+  <Icon name="sun" size={17} />
+  <select id="theme-choice" aria-label="配色主题">
+    <option value="system">跟随系统</option>
+    <option value="light">浅色模式</option>
+    <option value="dark">深色模式</option>
+  </select>
+</div>
+<script>
+  const select = document.querySelector<HTMLSelectElement>('#theme-choice');
+  if (select) {
+    select.closest<HTMLElement>('.theme-control')!.hidden = false;
+    try { select.value = localStorage.getItem('luxizon-theme') || 'system'; } catch {}
+    if (!select.value) select.value = 'system';
+    select.addEventListener('change', () => {
+      const value = select.value;
+      if (value === 'system') delete document.documentElement.dataset.theme;
+      else document.documentElement.dataset.theme = value;
+      try { localStorage.setItem('luxizon-theme', value); } catch {}
+    });
+  }
+</script>

@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts } from '../../lib/posts';
+const posts = await getPosts();
+const published = posts.filter(post => !post.data.example);
+const examples = posts.filter(post => post.data.example);
+---
+<BaseLayout title="文章" description="关于 C++、Linux、网络安全与开发实践的中文技术笔记。">
+  <div class="container page-container">
+    <header class="page-heading"><p class="eyebrow">THE JOURNAL</p><h1>笔记与思考<span class="heading-dot">.</span></h1><p>理解一个概念，拆解一个问题，记录一次探索。</p></header>
+    <div class="list-heading"><h2>全部文章</h2><span class="muted">{published.length} 篇正式笔记</span></div>
+    {published.length ? <div class="article-list">{published.map(post => <PostCard post={post} />)}</div> : <div class="empty-state"><span class="empty-mark" aria-hidden="true">[ … ]</span><div><h3>第一篇笔记，正在路上</h3><p>这里将收录学习、实践与开发中的真实记录。</p></div></div>}
+    {examples.length > 0 && <section class="example-section" aria-labelledby="examples-title"><div class="list-heading"><h2 id="examples-title">排版示例</h2><span class="example-label">非正式文章</span></div><p class="section-note">以下内容仅展示文章样式与写作结构，不代表 Luxizon 的个人经历或研究成果。</p><div class="article-list">{examples.map(post => <PostCard post={post} />)}</div></section>}
+  </div>
+</BaseLayout>
